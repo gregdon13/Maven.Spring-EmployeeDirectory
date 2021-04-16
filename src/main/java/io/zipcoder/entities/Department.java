@@ -42,6 +42,7 @@ public class Department {
     }
 
     public void setManager(Employee manager) {
+
         this.manager = manager;
     }
 }

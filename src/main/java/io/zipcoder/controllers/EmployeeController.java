@@ -3,10 +3,10 @@ package io.zipcoder.controllers;
 import io.zipcoder.entities.Employee;
 import io.zipcoder.repositories.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 public class EmployeeController {
@@ -23,23 +23,94 @@ public class EmployeeController {
         return employeeRepository.save(newHire);
     }
 
-    @PutMapping("/company/employee/{id}")
-    public Employee updateEmployeeManager(@PathVariable Long id, Employee manager) {
-        Employee holder = employeeRepository.findOne(id);
+    @PutMapping("/company/employee/{employeeId}")
+    public Employee updateEmployeeManager(@PathVariable Long employeeId, Employee manager) {
+        Employee holder = employeeRepository.findOne(employeeId);
         holder.setManager(manager);
         return employeeRepository.save(holder);
     }
 
-    @PutMapping("/company/employee/{id}")
-    public Employee updateEmployeeTitle(@PathVariable Long id, String title) {
-        Employee holder = employeeRepository.findOne(id);
+    @PutMapping("/company/employee/{employeeId}")
+    public Employee updateEmployeeTitle(@PathVariable Long employeeId, String title) {
+        Employee holder = employeeRepository.findOne(employeeId);
         holder.setTitle(title);
         return employeeRepository.save(holder);
     }
 
-//    @PutMapping("/company/employee/{id}")
-//    public Employee updateEmployeeDepartmentNumber(@PathVariable Long id, Long departmentNumber) {
-//        Employee holder = employeeRepository.findOne(id);
-//        holder.setDepartmentNumber();
-//    }
+    //WIP
+    @PutMapping("/company/employee/{employeeId}")
+    public Employee updateEmployeeDepartmentNumber(@PathVariable Long employeeId) {
+        return null;
+    }
+
+    @GetMapping("/company/employee/manager/{employeeId}")
+    public List<Employee> getEmployeeListUnderManager(@PathVariable Long employeeId) {
+        List<Employee> empList = new ArrayList<>();
+        for (Employee e : employeeRepository.findAll()) {
+            if (e.getManager().getEmployeeId().equals(employeeId)) {
+                empList.add(e);
+            }
+        }
+        return empList;
+    }
+
+    @GetMapping("/company/employee/manager")
+    public List<Employee> getEmployeeListNoManager() {
+        List<Employee> empList = new ArrayList<>();
+        for (Employee e : employeeRepository.findAll()) {
+            if (e.getManager() == null) {
+                empList.add(e);
+            }
+        }
+        return empList;
+    }
+
+    //WIP
+    @GetMapping("company/employee/managerUp/{employeeId}")
+    public List<Employee> getManagerHierarchy(@PathVariable Long employeeId) {
+        return null;
+    }
+
+    @GetMapping("/company/employee/{departmentNumber}")
+    public List<Employee> getDepartmentEmployees(@PathVariable Long departmentNumber) {
+        List<Employee> empList = new ArrayList<>();
+        for (Employee e : employeeRepository.findAll()) {
+            if (e.getDepartmentNumber().equals(departmentNumber)) {
+                empList.add(e);
+            }
+        }
+        return empList;
+    }
+
+    //WIP
+    @GetMapping("company/employee/managerDown/{managerId}")
+    public List<Employee> getAllReportingEmployees(@PathVariable Long managerId) {
+        return null;
+    }
+
+    @DeleteMapping("/company/employee/{employeeId}")
+    public void deleteMultipleEmployeesById(@PathVariable Long... employeeId) {
+        for (Long l : employeeId) {
+            employeeRepository.delete(l);
+        }
+    }
+
+    @DeleteMapping("/company/employee/{departmentNumber}")
+    public void deleteEmployeesOfDepartment(@PathVariable Long departmentNumber) {
+        for (Employee e : employeeRepository.findAll()) {
+            if (e.getDepartmentNumber().equals(departmentNumber)) {
+                employeeRepository.delete(e);
+            }
+        }
+    }
+
+    //WIP
+    @DeleteMapping("/company/employee/managerDown/{managerId}")
+    public void deleteAllEmployeesUnderManager(@PathVariable Long managerId) {
+
+    }
+
+    //WIP
+    @DeleteMapping("/company/employee/manager/{managerId}")
+    public void deleteDirectEmployeesUnderManager(@PathVariable Long managerId) {}
 }

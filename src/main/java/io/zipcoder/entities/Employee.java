@@ -15,8 +15,38 @@ public class Employee {
     private String phoneNumber;
     private String email;
     private Date hireDate;
-    private String manager;
+    @ManyToOne
+    private Employee manager;
     private Long departmentNumber;
+
+    //middle managers and employees
+    public Employee(Long employeeId, String firstName, String lastName, String title, String phoneNumber, String email, Date hireDate, Employee manager, Long departmentNumber) {
+        this.employeeId = employeeId;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.title = title;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+        this.hireDate = hireDate;
+        this.manager = manager;
+        this.departmentNumber = departmentNumber;
+    }
+
+    //manager has no manager
+    public Employee(Long employeeId, String firstName, String lastName, String title, String phoneNumber, String email, Date hireDate, Long departmentNumber) {
+        this.employeeId = employeeId;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.title = title;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+        this.hireDate = hireDate;
+        this.departmentNumber = departmentNumber;
+    }
+
+    public Employee() {
+
+    }
 
     public Long getEmployeeId() {
         return employeeId;
@@ -74,11 +104,11 @@ public class Employee {
         this.hireDate = hireDate;
     }
 
-    public String getManager() {
+    public Employee getManager() {
         return manager;
     }
 
-    public void setManager(String manager) {
+    public void setManager(Employee manager) {
         this.manager = manager;
     }
 

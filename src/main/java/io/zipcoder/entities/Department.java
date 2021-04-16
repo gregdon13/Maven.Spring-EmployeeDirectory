@@ -13,6 +13,14 @@ public class Department {
     @ManyToOne
     private Employee manager;
 
+    public Department() {}
+
+    public Department(Long departmentNumber, String departmentName, Employee manager) {
+        this.departmentNumber = departmentNumber;
+        this.departmentName = departmentName;
+        this.manager = manager;
+    }
+
     public Long getDepartmentNumber() {
         return departmentNumber;
     }

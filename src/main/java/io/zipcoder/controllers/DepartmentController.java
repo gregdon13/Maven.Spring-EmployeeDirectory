@@ -5,10 +5,10 @@ import io.zipcoder.entities.Employee;
 import io.zipcoder.repositories.DepartmentRepository;
 import io.zipcoder.repositories.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 public class DepartmentController {
@@ -21,6 +21,15 @@ public class DepartmentController {
     public DepartmentController(DepartmentRepository departmentRepository, EmployeeRepository employeeRepository) {
         this.departmentRepository = departmentRepository;
         this.employeeRepository = employeeRepository;
+    }
+
+    @GetMapping("/company/department")
+    public List<Department> getDepartmentList() {
+        List<Department> outlist = new ArrayList<>();
+        for (Department d : departmentRepository.findAll()) {
+            outlist.add(d);
+        }
+        return outlist;
     }
 
     @PostMapping("/company/department")

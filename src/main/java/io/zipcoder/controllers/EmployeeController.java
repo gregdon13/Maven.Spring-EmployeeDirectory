@@ -18,6 +18,20 @@ public class EmployeeController {
         this.employeeRepository = employeeRepository;
     }
 
+    @GetMapping("/company/employee/{employeeId}")
+    public Employee getEmployeeById(@PathVariable Long employeeId) {
+        return employeeRepository.findOne(employeeId);
+    }
+
+    @GetMapping("/company/employee")
+    public List<Employee> getAllEmployees(){
+        List<Employee> outlist = new ArrayList<>();
+        for (Employee e : employeeRepository.findAll()) {
+            outlist.add(e);
+        }
+        return outlist;
+    }
+
     @PostMapping("/company/employee")
     public Employee createEmployee(Employee newHire) {
         return employeeRepository.save(newHire);

@@ -28,7 +28,7 @@ public class Employee {
         this.phoneNumber = phoneNumber;
         this.email = email;
         this.hireDate = hireDate;
-        this.manager = manager;
+        //this.manager = manager;
         this.departmentNumber = departmentNumber;
     }
 

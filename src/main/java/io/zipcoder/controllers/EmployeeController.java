@@ -112,13 +112,29 @@ public class EmployeeController {
         }
     }
 
-    //WIP
+    //I think this is what they mean
     @DeleteMapping("/company/employee/managerDown/{managerId}")
     public void deleteAllEmployeesUnderManager(@PathVariable Long managerId) {
-
+        for (Employee e : employeeRepository.findAll()) {
+            if (e.getManager().getEmployeeId().equals(managerId)) {
+                employeeRepository.delete(e);
+            }
+            if (e.getManager().getManager().getEmployeeId().equals(managerId)) {
+                employeeRepository.delete(e);
+            }
+        }
     }
 
-    //WIP
+    //possibly a little weird
     @DeleteMapping("/company/employee/manager/{managerId}")
-    public void deleteDirectEmployeesUnderManager(@PathVariable Long managerId) {}
+    public void deleteDirectEmployeesUnderManager(@PathVariable Long managerId) {
+        for (Employee e : employeeRepository.findAll()) {
+            if (e.getManager().getEmployeeId().equals(managerId)) {
+                employeeRepository.delete(e);
+            }
+            if (e.getManager().getManager().getEmployeeId().equals(managerId)) {
+                e.setManager(employeeRepository.findOne(managerId));
+            }
+        }
+    }
 }

@@ -15,9 +15,9 @@ public class Employee {
     private String phoneNumber;
     private String email;
     private Date hireDate;
+    private Long departmentNumber;
     @ManyToOne
     private Employee manager;
-    private Long departmentNumber;
 
     //middle managers and employees
     public Employee(Long employeeId, String firstName, String lastName, String title, String phoneNumber, String email, Date hireDate, Employee manager, Long departmentNumber) {

@@ -116,8 +116,7 @@ public class Employee {
         return departmentNumber;
     }
 
-    public void setDepartmentNumber() {
-        Department department = new Department();
-        this.departmentNumber = department.getDepartmentNumber();
+    public void setDepartmentNumber(Long departmentNumber) {
+        this.departmentNumber = departmentNumber;
     }
 }

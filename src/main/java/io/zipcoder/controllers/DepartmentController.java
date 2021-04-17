@@ -42,9 +42,17 @@ public class DepartmentController {
         return departmentRepository.save(temp);
     }
 
-    //WIP
-    @PutMapping("/company/department/merge/{departmentNumberOne}")
-    public Department mergeDepartments(@PathVariable Long departmentNumberOne, Long departmentNumberTwo) {
-        return null;
+    //uncertain
+    @PutMapping("/company/department/merge/{departmentNumberOne}/{departmentNumberTwo}")
+    public Department mergeDepartments(@PathVariable Long departmentNumberOne, @PathVariable Long departmentNumberTwo) {
+        Department tempA = departmentRepository.findOne(departmentNumberOne);
+        Department tempB = departmentRepository.findOne(departmentNumberTwo);
+        tempB.getManager().setManager(tempA.getManager());
+        for (Employee e : employeeRepository.findAll()){
+            if (e.getDepartmentNumber().equals(departmentNumberTwo)) {
+                e.setDepartmentNumber(departmentNumberOne);
+            }
+        }
+        return departmentRepository.save(tempB);
     }
 }

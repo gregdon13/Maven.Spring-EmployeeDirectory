@@ -37,10 +37,12 @@ public class EmployeeController {
         return employeeRepository.save(holder);
     }
 
-    //WIP
+    //uncertain
     @PutMapping("/company/employee/{employeeId}")
-    public Employee updateEmployeeDepartmentNumber(@PathVariable Long employeeId) {
-        return null;
+    public Employee updateEmployeeDepartmentNumber(@PathVariable Long employeeId, Long departmentNumber) {
+        Employee holder = employeeRepository.findOne(employeeId);
+        holder.setDepartmentNumber(departmentNumber);
+        return employeeRepository.save(holder);
     }
 
     @GetMapping("/company/employee/manager/{employeeId}")
@@ -68,7 +70,13 @@ public class EmployeeController {
     //WIP
     @GetMapping("company/employee/managerUp/{employeeId}")
     public List<Employee> getManagerHierarchy(@PathVariable Long employeeId) {
-        return null;
+        List<Employee> managerList = new ArrayList<>();
+        Employee temp = employeeRepository.findOne(employeeId);
+        while(temp.getManager() != null) {
+            managerList.add(temp.getManager());
+            temp = temp.getManager();
+        }
+        return managerList;
     }
 
     @GetMapping("/company/employee/{departmentNumber}")

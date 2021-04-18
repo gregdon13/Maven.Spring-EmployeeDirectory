@@ -3,12 +3,11 @@ package io.zipcoder.entities;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 @Entity
 public class Department {
-
-    @Id
-    private Long departmentNumber;
+    private @Id Long departmentNumber;
     private String departmentName;
     @ManyToOne
     private Employee manager;
@@ -42,7 +41,6 @@ public class Department {
     }
 
     public void setManager(Employee manager) {
-
         this.manager = manager;
     }
 }

@@ -5,10 +5,7 @@ import java.util.Date;
 
 @Entity
 public class Employee {
-
-    @Id
-    @GeneratedValue
-    private Long employeeId;
+    private @Id @GeneratedValue Long employeeId;
     private String firstName;
     private String lastName;
     private String title;
@@ -28,7 +25,7 @@ public class Employee {
         this.phoneNumber = phoneNumber;
         this.email = email;
         this.hireDate = hireDate;
-        //this.manager = manager;
+        this.manager = manager;
         this.departmentNumber = departmentNumber;
     }
 

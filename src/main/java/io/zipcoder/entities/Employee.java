@@ -13,11 +13,10 @@ public class Employee {
     private String email;
     private Date hireDate;
     private Long departmentNumber;
-    @ManyToOne
-    private Employee manager;
+    private Long managerId;
 
     //middle managers and employees
-    public Employee(Long employeeId, String firstName, String lastName, String title, String phoneNumber, String email, Date hireDate, Employee manager, Long departmentNumber) {
+    public Employee(Long employeeId, String firstName, String lastName, String title, String phoneNumber, String email, Date hireDate, Long managerId, Long departmentNumber) {
         this.employeeId = employeeId;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -25,7 +24,7 @@ public class Employee {
         this.phoneNumber = phoneNumber;
         this.email = email;
         this.hireDate = hireDate;
-        this.manager = manager;
+        this.managerId = managerId;
         this.departmentNumber = departmentNumber;
     }
 
@@ -101,12 +100,12 @@ public class Employee {
         this.hireDate = hireDate;
     }
 
-    public Employee getManager() {
-        return manager;
+    public Long getManager() {
+        return managerId;
     }
 
-    public void setManager(Employee manager) {
-        this.manager = manager;
+    public void setManager(Long manager) {
+        this.managerId = manager;
     }
 
     public Long getDepartmentNumber() {

@@ -38,7 +38,7 @@ public class DepartmentService {
         return repository.save(originalDept);
     }
 
-    public Department updateManager(@PathVariable Long id, Employee manager) {
+    public Department updateManager(@PathVariable Long id, Long manager) {
         Department originalDept = repository.findOne(id);
         originalDept.setManager(manager);
         return repository.save(originalDept);
@@ -53,7 +53,7 @@ public class DepartmentService {
     public Department mergeDepartment(@PathVariable Long deptOne, @PathVariable Long deptTwo) {
         Department tempA = repository.findOne(deptOne);
         Department tempB = repository.findOne(deptTwo);
-        tempB.getManager().setManager(tempA.getManager());
+        tempB.setManager(tempA.getManager());
         for (Employee e : employeeRepository.findAll()) {
             if (e.getDepartmentNumber().equals(deptTwo)) {
                 e.setDepartmentNumber(deptOne);

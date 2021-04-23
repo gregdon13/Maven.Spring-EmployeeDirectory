@@ -9,15 +9,14 @@ import javax.persistence.OneToOne;
 public class Department {
     private @Id Long departmentNumber;
     private String departmentName;
-    @ManyToOne
-    private Employee manager;
+    private Long managerId;
 
     public Department() {}
 
-    public Department(Long departmentNumber, String departmentName, Employee manager) {
+    public Department(Long departmentNumber, String departmentName, Long manager) {
         this.departmentNumber = departmentNumber;
         this.departmentName = departmentName;
-        this.manager = manager;
+        this.managerId = manager;
     }
 
     public Long getDepartmentNumber() {
@@ -36,11 +35,11 @@ public class Department {
         this.departmentName = departmentName;
     }
 
-    public Employee getManager() {
-        return manager;
+    public Long getManager() {
+        return managerId;
     }
 
-    public void setManager(Employee manager) {
-        this.manager = manager;
+    public void setManager(Long manager) {
+        this.managerId = manager;
     }
 }

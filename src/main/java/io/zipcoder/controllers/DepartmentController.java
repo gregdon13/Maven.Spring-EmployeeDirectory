@@ -35,8 +35,8 @@ public class DepartmentController {
     }
 
     @PutMapping("/department/manager/{departmentNumber}")
-    public ResponseEntity<Department> updateDepartmentManager(@PathVariable Long departmentNumber, Employee manager) {
-        return new ResponseEntity<>(departmentService.updateManager(departmentNumber, manager), HttpStatus.OK);
+    public ResponseEntity<Department> updateDepartmentManager(@PathVariable Long departmentNumber, Long managerId) {
+        return new ResponseEntity<>(departmentService.updateManager(departmentNumber, managerId), HttpStatus.OK);
     }
 
     @PutMapping("/department/name/{departmentNumber}")

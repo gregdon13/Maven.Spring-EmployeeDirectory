@@ -55,7 +55,7 @@ public class EmployeeController {
     public List<Employee> getEmployeeListUnderManager(@PathVariable Long employeeId) {
         List<Employee> empList = new ArrayList<>();
         for (Employee e : employeeService.index()) {
-            if (e.getManager().equals(employeeId)) {
+            if (e.getManager() != null && e.getManager().equals(employeeId)) {
                 empList.add(e);
             }
         }
@@ -73,7 +73,7 @@ public class EmployeeController {
         return empList;
     }
 
-    //WIP
+    //Gets IDs. Should get Employee objects
     @GetMapping("/employee/managerUp/{employeeId}")
     public List<Long> getManagerHierarchy(@PathVariable Long employeeId) {
         List<Long> managerList = new ArrayList<>();
@@ -85,7 +85,7 @@ public class EmployeeController {
         return managerList;
     }
 
-    @GetMapping("/employee/{departmentNumber}")
+    @GetMapping("/employee/department/{departmentNumber}")
     public List<Employee> getDepartmentEmployees(@PathVariable Long departmentNumber) {
         List<Employee> empList = new ArrayList<>();
         for (Employee e : employeeService.index()) {
@@ -99,7 +99,23 @@ public class EmployeeController {
     //WIP
     @GetMapping("/employee/managerDown/{managerId}")
     public List<Employee> getAllReportingEmployees(@PathVariable Long managerId) {
-        return null;
+        List<Employee> masterOut = new ArrayList<>();
+        List<Employee> tempOne = new ArrayList<>();
+        List<Employee> tempTwo = new ArrayList<>();
+        tempOne.add(employeeService.show(managerId));
+        tempTwo.addAll(getEmployeeListUnderManager(managerId));
+
+        while (!tempTwo.isEmpty()) {
+            masterOut.addAll(tempOne);
+            tempOne.clear();
+            tempOne.addAll(tempTwo);
+            tempTwo.clear();
+            for (Employee emp : tempOne) {
+                tempTwo.addAll(getEmployeeListUnderManager(emp.getEmployeeId()));
+            }
+        }
+        masterOut.addAll(tempOne);
+        return masterOut;
     }
 
     @DeleteMapping("/employee/{employeeId}")
@@ -109,7 +125,7 @@ public class EmployeeController {
         }
     }
 
-    @DeleteMapping("/employee/{departmentNumber}")
+    @DeleteMapping("/employee/departmentDelete/{departmentNumber}")
     public void deleteEmployeesOfDepartment(@PathVariable Long departmentNumber) {
         for (Employee e : employeeService.index()) {
             if (e.getDepartmentNumber().equals(departmentNumber)) {
@@ -122,11 +138,13 @@ public class EmployeeController {
     @DeleteMapping("/employee/managerDown/{managerId}")
     public void deleteAllEmployeesUnderManager(@PathVariable Long managerId) {
         for (Employee e : employeeService.index()) {
-            if (e.getManager().equals(managerId)) {
+            if (employeeService.show(e.getManager()).getManager().equals(managerId)) {
                 employeeService.deleteEmp(e);
             }
-            if (e.getManager().equals(managerId)) {
-                employeeService.deleteEmp(e);
+        }
+        for (Employee emp : employeeService.index()) {
+            if (emp.getManager().equals(managerId)) {
+                employeeService.deleteEmp(emp);
             }
         }
     }
@@ -135,11 +153,11 @@ public class EmployeeController {
     @DeleteMapping("/employee/manager/{managerId}")
     public void deleteDirectEmployeesUnderManager(@PathVariable Long managerId) {
         for (Employee e : employeeService.index()) {
-            if (e.getManager().equals(managerId)) {
-                employeeService.deleteEmp(e);
+            if (employeeService.show(e.getManager()).getManager().equals(managerId)) {
+                e.setManager(managerId);
             }
             if (e.getManager().equals(managerId)) {
-                e.setManager(managerId);
+                employeeService.deleteEmp(e);
             }
         }
     }
